@@ -1,0 +1,85 @@
+Index: app/src/main/java/com/example/abamailapp/LabelMailsFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.abamailapp;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.lifecycle.ViewModelProvider;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.abamailapp.adapters.MailListAdapter;\r\nimport com.example.abamailapp.entities.Label;\r\nimport com.example.abamailapp.entities.User;\r\nimport com.example.abamailapp.repositories.UserRepository;\r\nimport com.example.abamailapp.viewmodels.MailViewModel;\r\n\r\npublic class LabelMailsFragment extends Fragment {\r\n\r\n    private static final String ARG_LABEL_BACKEND_ID = \"label_backend_id\";\r\n    private String labelBackendId;\r\n\r\n    private MailViewModel mailViewModel;\r\n    private MailListAdapter adapter;\r\n    private RecyclerView recyclerView;\r\n    private AppDB db;\r\n\r\n    public static LabelMailsFragment newInstance(String labelBackendId) {\r\n        LabelMailsFragment fragment = new LabelMailsFragment();\r\n        Bundle args = new Bundle();\r\n        args.putString(ARG_LABEL_BACKEND_ID, labelBackendId);\r\n        fragment.setArguments(args);\r\n        return fragment;\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        if (getArguments() != null) {\r\n            labelBackendId = getArguments().getString(ARG_LABEL_BACKEND_ID);\r\n        }\r\n        db = DatabaseClient.getInstance(requireContext());\r\n        mailViewModel = new ViewModelProvider(requireActivity()).get(MailViewModel.class);\r\n    }\r\n\r\n    @Nullable\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater,\r\n                             @Nullable ViewGroup container,\r\n                             @Nullable Bundle savedInstanceState) {\r\n        View view = inflater.inflate(R.layout.fragment_label_mails, container, false);\r\n\r\n        TextView folderTitle = view.findViewById(R.id.folderTitle);\r\n        Label label = db.labelDao().getLabelById(labelBackendId);\r\n        folderTitle.setText(label.getName());\r\n\r\n        recyclerView = view.findViewById(R.id.recyclerViewLabelMails);\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));\r\n\r\n        adapter = new MailListAdapter();\r\n        recyclerView.setAdapter(adapter);\r\n\r\n        db = DatabaseClient.getInstance(getContext());\r\n        int userId = SessionManager.getLoggedInUserId();\r\n        UserRepository userRepository = new UserRepository(getContext());\r\n        mailViewModel = new ViewModelProvider(requireActivity()).get(MailViewModel.class);\r\n\r\n\r\n        User user = db.userDao().getUserById(userId);\r\n\r\n        if (user == null) {\r\n            // User not in Room, fetch from backend\r\n            userRepository.fetchUserById(userId, fetchedUser -> {\r\n                if (fetchedUser != null) {\r\n                    new Thread(() -> {\r\n                        db.userDao().insert(fetchedUser); // save to Room\r\n                        requireActivity().runOnUiThread(() -> {\r\n                            mailViewModel.getInbox(fetchedUser.getMailAddress())\r\n                                    .observe(getViewLifecycleOwner(), mails -> adapter.setMailList(mails));\r\n                        });\r\n                    }).start();\r\n                }\r\n            });\r\n        } else {\r\n            // User exists in Room\r\n            mailViewModel.fetchMailsForLabel(labelBackendId).removeObservers(getViewLifecycleOwner());\r\n            mailViewModel.fetchMailsForLabel(labelBackendId)\r\n                    .observe(getViewLifecycleOwner(), mails -> adapter.setMailList(mails));\r\n\r\n        }\r\n\r\n        adapter.setOnItemClickListener(mail -> {\r\n            Intent intent = new Intent(getContext(), MailViewActivity.class);\r\n            intent.putExtra(\"mailId\", mail.getId());\r\n            intent.putExtra(\"subject\", mail.getSubject());\r\n            intent.putExtra(\"sender\", mail.getSenderEmail());\r\n            intent.putExtra(\"body\", mail.getContent());\r\n            startActivity(intent);\r\n        });\r\n        return view;\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/abamailapp/LabelMailsFragment.java b/app/src/main/java/com/example/abamailapp/LabelMailsFragment.java
+--- a/app/src/main/java/com/example/abamailapp/LabelMailsFragment.java	(revision 28ff909e2eda9064fa2f7c067d42c13f4f01c02c)
++++ b/app/src/main/java/com/example/abamailapp/LabelMailsFragment.java	(date 1758838064085)
+@@ -68,6 +68,7 @@
+         db = DatabaseClient.getInstance(getContext());
+         int userId = SessionManager.getLoggedInUserId();
+         UserRepository userRepository = new UserRepository(getContext());
++        TextView emptyMessage = view.findViewById(R.id.emptyMessage);
+         mailViewModel = new ViewModelProvider(requireActivity()).get(MailViewModel.class);
+ 
+ 
+@@ -80,8 +81,18 @@
+                     new Thread(() -> {
+                         db.userDao().insert(fetchedUser); // save to Room
+                         requireActivity().runOnUiThread(() -> {
+-                            mailViewModel.getInbox(fetchedUser.getMailAddress())
+-                                    .observe(getViewLifecycleOwner(), mails -> adapter.setMailList(mails));
++                            mailViewModel.fetchMailsForLabel(labelBackendId)
++                                    .observe(getViewLifecycleOwner(), mails -> {
++                                        adapter.setMailList(mails);
++                                        if (mails == null || mails.isEmpty()) {
++                                            emptyMessage.setVisibility(View.VISIBLE);
++                                            emptyMessage.setText("Nothing in \"" + label.getName() + "\"");
++                                            recyclerView.setVisibility(View.GONE);
++                                        } else {
++                                            emptyMessage.setVisibility(View.GONE);
++                                            recyclerView.setVisibility(View.VISIBLE);
++                                        }
++                                    });
+                         });
+                     }).start();
+                 }
+@@ -90,8 +101,17 @@
+             // User exists in Room
+             mailViewModel.fetchMailsForLabel(labelBackendId).removeObservers(getViewLifecycleOwner());
+             mailViewModel.fetchMailsForLabel(labelBackendId)
+-                    .observe(getViewLifecycleOwner(), mails -> adapter.setMailList(mails));
+-
++                    .observe(getViewLifecycleOwner(), mails -> {
++                        adapter.setMailList(mails);
++                        if (mails == null || mails.isEmpty()) {
++                            emptyMessage.setVisibility(View.VISIBLE);
++                            emptyMessage.setText("Nothing in \"" + label.getName() + "\"");
++                            recyclerView.setVisibility(View.GONE);
++                        } else {
++                            emptyMessage.setVisibility(View.GONE);
++                            recyclerView.setVisibility(View.VISIBLE);
++                        }
++                    });
+         }
+ 
+         adapter.setOnItemClickListener(mail -> {
+Index: app/src/main/res/layout/fragment_label_mails.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/folderTitle\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:textSize=\"20sp\"\r\n        android:textStyle=\"bold\"\r\n        android:layout_marginLeft=\"16dp\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:gravity=\"left\"/>\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/recyclerViewLabelMails\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:clipToPadding=\"false\"\r\n        android:paddingTop=\"8dp\"\r\n        android:paddingBottom=\"8dp\"\r\n        android:paddingStart=\"8dp\"\r\n        android:paddingEnd=\"8dp\"/>\r\n</LinearLayout>\r\n
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_label_mails.xml b/app/src/main/res/layout/fragment_label_mails.xml
+--- a/app/src/main/res/layout/fragment_label_mails.xml	(revision 28ff909e2eda9064fa2f7c067d42c13f4f01c02c)
++++ b/app/src/main/res/layout/fragment_label_mails.xml	(date 1758838064098)
+@@ -11,8 +11,18 @@
+         android:textStyle="bold"
+         android:layout_marginLeft="16dp"
+         android:layout_marginTop="16dp"
+-        android:gravity="left"/>
++        android:gravity="left" />
+ 
++    <TextView
++        android:id="@+id/emptyMessage"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:gravity="center"
++        android:text="Nothing here"
++        android:textSize="16sp"
++        android:visibility="gone"
++        android:layout_marginTop="20dp"/>
++
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/recyclerViewLabelMails"
+         android:layout_width="match_parent"

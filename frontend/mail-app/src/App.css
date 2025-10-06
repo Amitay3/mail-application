@@ -1,0 +1,713 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: rgb(241, 245, 245);
+}
+
+
+
+/* Dark mode */
+html.dark-mode,
+body.dark-mode,
+.dark-mode html,
+.dark-mode body {
+  background-color: #0e0e0e !important;
+  color: #e0e0e0;
+}
+
+
+/* Basic dark mode styles */
+.dark-mode {
+  background-color: #0e0e0e;
+  color: #e0e0e0;
+}
+
+.dark-mode .app-wrapper {
+  background-color: #0e0e0e;
+  color: #e0e0e0;
+}
+
+/* Make sure common containers and components adapt */
+.dark-mode .container-fluid,
+.dark-mode .list-group-item,
+.dark-mode .btn,
+.dark-mode input,
+.dark-mode .modal-content,
+.dark-mode .mails-content,
+.dark-mode .modal-window {
+  background-color: #0e0e0e !important;
+  color: #e0e0e0;
+  border-color: #333;
+}
+
+/* Buttons and links */
+.dark-mode .btn-primary {
+  background-color: #bb86fc;
+  border-color: #bb86fc;
+  background-color: #262525;
+}
+
+.dark-mode .btn-secondary {
+  background-color: #333;
+  border-color: #333;
+  color: #e0e0e0;
+}
+
+.dark-mode a.list-group-item {
+  color: #e0e0e0;
+}
+
+.dark-mode a.list-group-item:hover {
+  border: 2px solid #444;
+  background-color: #ffffff ;
+  color: #fff;
+}
+
+/* Modal backdrop
+.dark-mode .compose-modal-backdrop,
+.dark-mode .label-modal-backdrop {
+  background-color: rgba(18, 18, 18, 0.95);
+} */
+
+/* Inputs */
+.dark-mode input,
+.dark-mode textarea {
+  background-color: #222;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+.dark-mode .force-light-inputs input,
+.dark-mode .force-light-inputs textarea {
+  background-color: white !important;
+  color: black !important;
+}
+
+.dark-mode .search-btn {
+  background-color: inherit; 
+  color: #eaeaea;         
+}
+
+.dark-mode .search-btn:hover {
+  background-color: #444; 
+}
+
+.dark-mode .search-container {
+  background-color: #333;
+  color: #e0e0e0;
+}
+
+.dark-mode .search-container:hover {
+  background-color: #444;   
+}
+
+.search-container::placeholder {
+  color: #6c757d;
+}
+
+/* Dark mode placeholder */
+body.dark-mode .search-container::placeholder {
+  color: #bbb; 
+}
+
+
+
+.dark-mode .mails-container {
+  background-color: #484646;
+  color: #e0e0e0;
+  border: 1px solid #363434;
+  box-shadow:
+    0 2px 6px rgba(255, 255, 255, 0.05),  
+    0 4px 12px rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 15px;
+}
+
+
+
+.dark-mode .list-group-item {
+  background-color: #484646 !important;
+  color: #e0e0e0 !important;
+}
+
+/* 
+.dark-mode .compose-modal-backdrop {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+} */
+
+/* .dark-mode .compose-modal-window {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+} */
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.signin-page {
+  background-color: #f2f2f2;
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+.signin-title {
+  float: left;
+}
+
+.login-fields {
+  height: 50px;
+}
+
+.profile-pic {
+  border-radius: 500px; 
+  width: 45px;        
+  height: 45px;        
+  object-fit: cover;   
+  float: right;
+  margin-right: 15px;
+}
+
+.home-btn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.create-account-btn {
+  border-radius: 50px;
+  background-color: inherit;
+  color: black;
+  border-color: white;
+}
+
+.next-btn {
+  border-radius: 50px;
+}
+.gmail-logo {
+  width: 90px;        
+  height: 70px;        
+  object-fit: cover;  
+}
+
+.gmail-banner {
+  position: absolute;   
+  top: 10px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.search-btn {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 4px;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.plus-btn {
+  border: none;
+  background-color: transparent;
+  padding: 6px;               
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;        
+  transition: background-color 0.2s ease;
+}
+
+.dark-toggle-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.dark-mode .plus-btn {
+  background-color: inherit !important;
+}
+
+.dark-mode .plus-btn:hover {
+  background-color: #444 !important;
+}
+
+
+
+.plus-btn:hover {
+  background-color: #838587;
+  border-radius: 100%;
+}
+
+.search-icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.6;
+  display: block;
+}
+
+.search-btn:hover {
+  background-color:#b1aeae;
+  border-radius: 100%;
+}
+
+.gmail-text {
+  font-size: 2rem;
+  font-style:initial;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  color: #4e4f50;
+  font-weight: bold;
+}
+
+
+.search-container {
+  border-radius: 200px;      
+  background-color:#e1dfdf;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 6px 12px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  width: 800px;
+  height: 60px;
+}
+
+.search-container:hover {
+  background-color:aliceblue;
+}
+
+.list-group-item {
+  border: none;
+  background-color: inherit;
+  font-size: 1.2rem;
+}
+
+.list-group-item:hover {
+  background-color:#b1aeae;
+  box-shadow:
+  0 4px 60px rgba(255, 255, 255, 0.05), 
+  0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+
+
+.dark-mode .list-group-item:hover {
+  background-color:#b1aeae;
+  box-shadow:
+  0 4px 60px rgba(255, 255, 255, 0.05), 
+  0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+
+.sidebar-item {
+  text-decoration: none;
+  color: inherit;
+  border: none;
+  background-color: inherit;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  padding: 10px 15px;
+  margin-bottom: 6px;
+}
+
+.sidebar-item:hover {
+  background-color: #b1aeae !important;
+}
+
+/* Optional: active item style */
+.sidebar-item.active {
+  background-color: gray;
+  color: white;
+}
+
+
+.signout-btn {
+  border: none;
+  background-color: inherit;
+  font-size: 1.2rem;
+}
+
+.signout-btn:hover {
+  border: none;
+  background-color: inherit;
+  font-size: 1.2rem;
+}
+
+.dark-mode .signout-btn {
+  color:#fff;
+}
+
+.custom-file-input {
+  border-radius: 20px;
+  height: 50px;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  padding: 10px;
+  color: #6c757d;
+}
+
+.custom-file-input:hover {
+  border-color: #a1a1a1;
+  background-color: #e9ecef;
+  cursor: pointer;
+}
+
+/* Default (light mode) sidebar */
+.sidebar-menu {
+  background-color: f2f2f2;
+  height: 100vh;
+  padding: 1rem;
+}
+
+/* Dark mode override */
+.dark-mode .sidebar-menu {
+  background-color: #0e0e0e !important;
+}
+
+/* List items default background */
+.sidebar-menu .list-group-item {
+  background-color: inherit !important;
+  border: none;
+}
+
+.sidebar-menu .list-group-item.active {
+  background-color: gray !important;
+  border-radius: 50px;
+  color: white !important;
+}
+
+
+.info-btn {
+  margin-left: -30px;
+}
+
+
+.back-btn {
+  border: none;
+  background-color: inherit;
+  padding: 6px;               
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 70%;   
+  margin-bottom: 10px;
+}
+
+.back-btn:hover {
+  background-color: #696969;
+  color: #4e4f50;
+  cursor: pointer;
+  border-radius: 100%;
+}
+
+
+.sidebar-btn {
+  background-color: rgb(241, 245, 245);
+}
+
+.mails-content {
+  width: 100%;
+}
+
+.mails-item {
+  background-color: inherit;
+}
+
+.dark-mode .mails-item {
+  background-color: inherit !important;
+}
+.newmail-btn {
+  border-radius: 20px;
+  width: 200px;
+  height: 70px;
+  color: black;
+  background-color: rgb(164, 215, 226);
+  border-color:rgb(255, 255, 255);;
+  font-size: 1.3rem;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.dark-mode .newmail-btn {
+  border-color:rgb(255, 255, 255);
+  color: rgb(47, 47, 47);
+  background-color: white !important;
+}
+
+.email-sender {
+  margin-right: 80px;
+}
+
+.mails-container {
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mail-view-container {
+  max-width: inherit;
+  overflow-x: auto;
+  word-break: break-word;
+}
+/* Self-made toast component */
+.my-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2000;
+  pointer-events: auto;
+  max-width: 80%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Show state */
+.my-toast.show {
+  opacity: 1;
+}
+
+/* Close button */
+.my-toast-close {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 16px;
+  margin-left: 12px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Light theme */
+.my-toast.light {
+  background-color: rgb(164, 215, 226);
+  color: #333;
+}
+
+/* Dark theme */
+.my-toast.dark {
+  background-color: #333;
+  color: #f0f0f0;
+}
+
+
+/* Header (no border-radius) */
+.compose-header {
+  background-color: #f1f1f1;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.compose-modal-backdrop {
+  position: fixed;
+  bottom: 20px;
+  right: 80px;
+  height: 600px;
+  width: 600px;
+  max-width: 90vw;
+  background-color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px; 
+  overflow: hidden; 
+}
+
+
+.compose-modal-window {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.compose-footer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: 150px;
+  padding-top: 16px;
+}
+
+.label-modal-backdrop {
+  position: fixed;           
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;  
+  align-items: center;       
+  z-index: 1050;         
+}
+
+.label-modal-window {
+  background-color: white;   
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  width: 600px;              
+  max-width: 90vw;          
+  padding: 20px;
+  z-index: 1100;           
+}
+
+.profile-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent; /* No dark background */
+  z-index: 1000;
+}
+
+.profile-modal-window {
+  position: absolute;
+  top: 95px;
+  right: 15px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 40px;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  width: 400px;
+  height: 450px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dark-mode .profile-modal-backdrop {
+  background-color: transparent; /* Still transparent in dark mode */
+}
+
+.dark-mode .profile-modal-window {
+  background-color: #262525;
+  border: 1px solid #444;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+
+.profile-pic-modal {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.profile-email {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.profile-greeting {
+  font-size: 1.4rem;     
+  font-weight: 600;
+  margin-top: 0.5rem;
+  color: #000;
+}
+
+.dark-mode .profile-email {
+  color: #e0e0e0; 
+}
+
+.dark-mode .profile-greeting {
+  color: #ffffff;
+}
+
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.logoff-btn {
+  float: right;
+  border: none;
+  color: inherit;
+  background-color: inherit;
+}
+
+.dark-mode .logoff-btn {
+  background-color: #0e0e0e;
+}
+
+.login-container {
+  border-radius: 100pzx;
+}
+
+.toggle-btn {
+  float: right;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

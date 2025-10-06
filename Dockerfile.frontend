@@ -1,0 +1,19 @@
+FROM node:18
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and lock file
+COPY frontend/mail-app/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the full app (including src, public, etc.)
+COPY frontend/mail-app/ ./
+
+# Expose default React port
+EXPOSE 3000
+
+# Start the React app
+CMD ["npm", "start"]

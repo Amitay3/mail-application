@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar with title and menu -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="Mail"
+        android:titleTextColor="@android:color/white"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <!-- Mail content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/mail_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subject"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/mail_sender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="From: sender@example.com"
+                android:textStyle="italic"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/mail_recipient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="To: recipient@example.com"
+                android:textStyle="italic"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/mail_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12:45 PM · Sep 26, 2025"
+                android:textStyle="italic"
+                android:textColor="#999"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/mail_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mail content goes here..."
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

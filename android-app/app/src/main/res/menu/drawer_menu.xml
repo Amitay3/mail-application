@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_inbox"
+            android:title="Inbox"
+            android:icon="@drawable/ic_inbox"/>
+        <item
+            android:id="@+id/nav_sent"
+            android:title="Sent"
+            android:icon="@drawable/ic_send"/>
+        <item
+            android:id="@+id/nav_drafts"
+            android:title="Drafts"
+            android:icon="@drawable/ic_drafts"/>
+        <item
+            android:id="@+id/nav_spam"
+            android:title="Spam"
+            android:icon="@drawable/ic_spam"/>
+    </group>
+
+</menu>

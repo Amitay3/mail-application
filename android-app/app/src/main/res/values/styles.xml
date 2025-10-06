@@ -1,0 +1,10 @@
+<resources>
+    <style name="RoundedExtendedFab" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.RoundedFAB</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.RoundedFAB" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">240dp</item>
+    </style>
+</resources>

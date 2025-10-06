@@ -1,0 +1,28 @@
+# Use an official GCC base image
+FROM gcc:latest
+
+# Install necessary tools
+RUN apt-get update && apt-get install -y cmake
+
+# Create app directory
+WORKDIR /usr/src/bloomfilter_app
+
+# Copy the full source, tests and CMakeLists.txt
+COPY backend/ ./src/
+COPY tests/ ./tests/
+COPY CMakeLists.txt ./
+
+# Create a build directory and build the tests executable
+RUN mkdir build
+WORKDIR /usr/src/bloomfilter_app/build
+RUN cmake -DENABLE_TESTS=ON .. && make
+
+# Copy the test binary to a clean folder
+RUN mkdir /app
+RUN cp runTests /app/
+
+# Set working directory to /app
+WORKDIR /app
+
+# Run the tests executable by default
+CMD ["./runTests"]

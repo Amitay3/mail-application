@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Aba Mail App</string>
+    <string name="logo">logo</string>
+    <string name="Login">Login</string>
+    <string name="use_your_aba_mail_account">Use your ABAMail account</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="create_account">Create account</string>
+    <string name="create_an_abamail_account">Create an AbaMail account\nEnter your credentials</string>
+    <string name="name">Name</string>
+    <string name="verify_password">Verify password</string>
+    <string name="profile_image">profile_image</string>
+    <string name="register">Register</string>
+    <string name="select_a_profile_picture">Select a profile picture</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="compose">Compose</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_new_label">Add new label</string>
+    <string name="title_activity_create_label">CreateLabelActivity</string>
+    <string name="dark_mode_icon">Dark mode icon</string>
+</resources>

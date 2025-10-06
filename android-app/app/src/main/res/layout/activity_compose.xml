@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/compose_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ComposeActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/compose_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:title="Compose"
+        android:titleTextColor="@android:color/white"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- To field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/to_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="To"
+        app:boxBackgroundMode="none"
+        app:layout_constraintTop_toBottomOf="@id/compose_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/to_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Subject field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/subject_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Subject"
+        app:boxBackgroundMode="none"
+        app:layout_constraintTop_toBottomOf="@id/to_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/subject_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Message body -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/body_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="Compose email"
+        app:boxBackgroundMode="none"
+        app:layout_constraintTop_toBottomOf="@id/subject_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/content_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:minLines="10"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Send FAB -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/send_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:textAllCaps="false"
+        android:contentDescription="Send"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:icon="@drawable/ic_send"
+        app:iconTint="@android:color/white"
+        app:iconPadding="8dp"
+        app:iconGravity="textStart"
+
+        android:textColor="@android:color/white"
+        app:backgroundTint="@color/green" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

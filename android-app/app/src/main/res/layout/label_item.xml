@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:gravity="center_vertical">
+
+    <!-- Optional label icon -->
+    <ImageView
+        android:id="@+id/label_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_label"
+        app:tint="@color/iconColor" />
+
+    <!-- Label name -->
+    <TextView
+        android:id="@+id/label_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:text="Label Name"
+        android:textSize="16sp" />
+
+    <!-- Three dots menu button -->
+    <ImageView
+        android:id="@+id/label_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_hamburger"
+        android:padding="8dp"
+        app:tint="@color/iconColor" />
+</LinearLayout>

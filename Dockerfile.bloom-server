@@ -1,0 +1,26 @@
+# Use an official GCC base image
+FROM gcc:latest
+
+# Install necessary tools
+RUN apt-get update && apt-get install -y cmake
+
+# Create app directory
+WORKDIR /usr/src/bloomfilter_app
+
+# Copy source files
+COPY backend/bloom-server ./src/bloom-server
+COPY CMakeLists.txt ./
+
+# Create a build directory and build the project
+RUN mkdir build
+WORKDIR /usr/src/bloomfilter_app/build
+RUN cmake -DENABLE_TESTS=OFF .. && make
+
+# Create a clean folder for final app
+RUN mkdir /app
+RUN cp bloomfilter_app /app/
+
+# Set working directory to /app
+WORKDIR /app
+
+

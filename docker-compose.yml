@@ -1,0 +1,68 @@
+volumes:
+  mongo-data:
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  bloom-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.bloom-server
+    image: bloom-server
+    container_name: bloom-server
+    ports:
+      - "5588:5588"
+    volumes:
+      - ./data:/app/data
+    command: ["./bloomfilter_app", "0.0.0.0", "5588", "128", "1", "2", "3"]
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    image: web-api
+    container_name: web-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - bloom-server
+      - mongodb
+    environment:
+      - NODE_ENV=development
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    image: web-frontend
+    container_name: web-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - web
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      
+# This container is for tests only. If you want to run it remove the comments on it, build the images, and run 'docker compose run --rm bloom-tests'
+
+  # bloom-tests:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.tests
+  #   image: bloomfilter_tests
+  #   container_name: bloom-tests
+  #   command: ./runTests
+  #   volumes:
+  #     - ${PWD}/data:/app/data
+  #   tty: true
+  #   stdin_open: true
+  #   profiles:
+  #     - test
