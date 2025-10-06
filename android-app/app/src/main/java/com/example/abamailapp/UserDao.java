@@ -18,10 +18,10 @@ public interface UserDao {
     User getUserByEmail(String email);
 
     @Insert
-    long insert(User user); // single insert
+    long insert(User user);
 
     @Insert
-    long[] insert(User... users); // varargs insert
+    long[] insert(User... users);
 
     @Update
     void update(User... users);

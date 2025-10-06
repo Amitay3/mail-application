@@ -1,8 +1,8 @@
 package com.example.abamailapp.entities;
 
 public class MailRequest {
-    private String sender;      // email string for backend
-    private String recipient;   // email string for backend
+    private String sender;
+    private String recipient;
     private String subject;
     private String content;
     private boolean isDraft;

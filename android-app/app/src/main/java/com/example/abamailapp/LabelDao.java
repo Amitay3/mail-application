@@ -15,7 +15,7 @@ import java.util.List;
 public interface LabelDao {
 
     @Query("SELECT * FROM labels")
-    List<Label> getAllLabels();  // For repository sync
+    List<Label> getAllLabels();
 
     @Query("SELECT * FROM labels WHERE id = :id")
     Label get(int id);

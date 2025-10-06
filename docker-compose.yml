@@ -6,7 +6,7 @@ services:
     image: mongo:6.0
     container_name: mongo
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - mongo-data:/data/db
 
@@ -36,20 +36,20 @@ services:
     environment:
       - NODE_ENV=development
 
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    image: web-frontend
-    container_name: web-frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - web
-    stdin_open: true
-    tty: true
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+  # frontend:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.frontend
+  #   image: web-frontend
+  #   container_name: web-frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - web
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
       
 # This container is for tests only. If you want to run it remove the comments on it, build the images, and run 'docker compose run --rm bloom-tests'
 

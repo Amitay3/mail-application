@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserAPI {
-    private static final String BASE_URL = "http://10.0.2.2:8080/api/"; // emulator -> localhost
+    private static final String BASE_URL = "http://10.0.2.2:8080/api/";
     private BackendAPI backendAPI;
 
     private MutableLiveData<User> userData = new MutableLiveData<>();

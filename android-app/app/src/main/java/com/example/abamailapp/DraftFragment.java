@@ -56,7 +56,7 @@ public class DraftFragment extends Fragment {
             userRepository.fetchUserById(userId, fetchedUser -> {
                 if (fetchedUser != null) {
                     new Thread(() -> {
-                        db.userDao().insert(fetchedUser); // save to Room
+                        db.userDao().insert(fetchedUser);
                         requireActivity().runOnUiThread(() -> {
                             mailViewModel.getDrafts(fetchedUser.getMailAddress())
                                     .observe(getViewLifecycleOwner(), mails -> adapter.setMailList(mails));

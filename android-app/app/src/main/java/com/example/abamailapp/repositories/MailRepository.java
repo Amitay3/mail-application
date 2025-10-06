@@ -86,7 +86,7 @@ public class MailRepository {
             @Override
             public void onResponse(Call<Mail> call, Response<Mail> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Mail backendMail = response.body(); // this now has backendId
+                    Mail backendMail = response.body();
 
                     executor.execute(() -> {
                         // Delete the old draft (local version) by backendId or local id

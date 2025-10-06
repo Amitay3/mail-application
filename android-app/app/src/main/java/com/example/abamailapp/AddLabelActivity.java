@@ -3,6 +3,7 @@ package com.example.abamailapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +35,7 @@ public class AddLabelActivity extends AppCompatActivity {
                 return;
             }
             labelViewModel.addLabel(labelName);
-
+            Toast.makeText(this, "Label created", Toast.LENGTH_SHORT).show();
             Intent result = new Intent();
             result.putExtra("new_label_name", labelName);
             setResult(RESULT_OK, result);

@@ -9,11 +9,11 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "labels")
 public class Label {
     @PrimaryKey(autoGenerate = true)
-    private int id;  // local Room ID (just for your DB)
+    private int id;  // local Room ID
 
     @ColumnInfo(name = "backendId")
     @SerializedName("_id")
-    private String backendId;  // MongoDB _id from backend
+    private String backendId;  // MongoDB _id
 
     @SerializedName("name")
     private String name;

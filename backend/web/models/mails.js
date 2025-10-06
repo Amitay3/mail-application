@@ -64,18 +64,6 @@ async function createMail(senderEmail, recipientEmail, subject, content, isDraft
         return -1;
     }
 
-    // If self mail
-    if (recipientEmail.toLowerCase() === senderEmail.toLowerCase()) {
-        // Adding self mail to sender only
-        const selfMail = await Mail.create(mailData);
-        sender.sent.push(selfMail._id);
-        sender.allMails.push(selfMail._id);
-        sender.inbox.push(selfMail._id);
-
-        await sender.save();
-        return selfMail;
-    }
-
     // Check for URLs
     const urls = [
         ...(urlChecker.checkEmailForUrls(subject) || []),
@@ -92,6 +80,27 @@ async function createMail(senderEmail, recipientEmail, subject, content, isDraft
             break;
         }
     }
+
+    // If self mail
+    if (recipientEmail.toLowerCase() === senderEmail.toLowerCase()) {
+        const selfMail = await Mail.create(mailData);
+
+        if (blacklisted) {
+            // Add spam + allMails
+            sender.spam.push(selfMail._id);
+            sender.allMails.push(selfMail._id);
+        } else {
+            // Normal self mail
+            sender.sent.push(selfMail._id);
+            sender.inbox.push(selfMail._id);
+            sender.allMails.push(selfMail._id);
+        }
+
+        await sender.save();
+        return selfMail;
+    }
+
+
 
     // Create duplicate mails for sender and recipient
     const senderMail = await Mail.create(mailData);
@@ -194,7 +203,7 @@ async function updateMail(mailId, updates, userId) {
         $and: [{ _id: objectId }, { _id: { $in: sender.drafts } }]
     });
     if (!mail) return -4;
-    
+
     // Mail already sent
     if (!mail.isDraft) return -3;
 
@@ -218,21 +227,7 @@ async function updateMail(mailId, updates, userId) {
         const recipient = await User.findOne({ mailAddress: mail.recipient });
         if (!recipient) return -1;
 
-        // If self mail
-        if (mail.recipient.toLowerCase() === sender.mailAddress.toLowerCase()) {
-            // Self send without sender allMails (already there)
-            sender.sent.push(mail._id);
-            sender.inbox.push(mail._id);
-            // Remove from drafts
-            sender.drafts.pull(mailId);
-            // Mark original mail as sent
-            mail.isDraft = false;
-            await mail.save();
-
-            await sender.save();
-            return mail;
-        }
-        // Blacklist check
+        // Check for URLs (subject + content)
         const urls = [
             ...(urlChecker.checkEmailForUrls(mail.subject) || []),
             ...(urlChecker.checkEmailForUrls(mail.content) || [])
@@ -244,6 +239,27 @@ async function updateMail(mailId, updates, userId) {
                 break;
             }
         }
+
+        // If self mail
+        if (mail.recipient.toLowerCase() === sender.mailAddress.toLowerCase()) {
+            if (blacklisted) {
+                // Put in spam
+                sender.spam.push(mail._id);
+            } else {
+                // Normal self send
+                sender.sent.push(mail._id);
+                sender.inbox.push(mail._id);
+            }
+            // Remove from drafts
+            sender.drafts.pull(mailId);
+            // Mark original mail as sent
+            mail.isDraft = false;
+            await mail.save();
+
+            await sender.save();
+            return mail;
+        }
+
 
         // Mark original mail as sent
         mail.isDraft = false;

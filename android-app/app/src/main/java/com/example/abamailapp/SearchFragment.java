@@ -49,9 +49,10 @@ public class SearchFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        // Title
+        // Title displayed if there are search results
         TextView folderTitle = view.findViewById(R.id.folderTitle);
         folderTitle.setText("Search Results");
+        folderTitle.setVisibility(View.GONE);
 
         recyclerView = view.findViewById(R.id.recyclerViewSearch);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,15 +74,17 @@ public class SearchFragment extends Fragment {
         }
 
         LiveData<List<Mail>> searchResult = mailViewModel.searchMails(query);
-        searchResult.removeObservers(getViewLifecycleOwner()); // remove old observers
+        searchResult.removeObservers(getViewLifecycleOwner());
         searchResult.observe(getViewLifecycleOwner(), mails -> {
             if (mails != null && !mails.isEmpty()) {
                 adapter.setMailList(mails);
                 recyclerView.setVisibility(View.VISIBLE);
+                folderTitle.setVisibility(View.VISIBLE);
                 noResultsText.setVisibility(View.GONE);
             } else {
                 adapter.setMailList(Collections.emptyList());
                 recyclerView.setVisibility(View.GONE);
+                folderTitle.setVisibility(View.GONE);
                 noResultsText.setText("No matches for \"" + query + "\"");
                 noResultsText.setVisibility(View.VISIBLE);
             }

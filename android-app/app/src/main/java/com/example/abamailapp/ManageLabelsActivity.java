@@ -2,6 +2,7 @@ package com.example.abamailapp;
 
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -49,14 +50,16 @@ public class ManageLabelsActivity extends AppCompatActivity {
 
                 final EditText input = new EditText(ManageLabelsActivity.this);
                 input.setText(label.getName());
-                input.setSelection(label.getName().length()); // place cursor at end
+                input.setSelection(label.getName().length());
                 builder.setView(input);
 
                 builder.setPositiveButton("Save", (dialog, which) -> {
                     String newName = input.getText().toString().trim();
+                    // Update label if name has changed
                     if (!newName.isEmpty() && !newName.equals(label.getName())) {
                         label.setName(newName);
                         labelViewModel.updateLabel(label);
+                        Toast.makeText(ManageLabelsActivity.this, "Label updated", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -83,7 +86,7 @@ public class ManageLabelsActivity extends AppCompatActivity {
             userRepository.fetchUserById(userId, fetchedUser -> {
                 if (fetchedUser != null) {
                     new Thread(() -> {
-                        db.userDao().insert(fetchedUser); // save to Room
+                        db.userDao().insert(fetchedUser);
                         runOnUiThread(() -> {
                             labelViewModel.getLabels()
                                     .observe(this, labels -> labelAdapter.setLabels(labels));

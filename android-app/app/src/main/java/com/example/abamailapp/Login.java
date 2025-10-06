@@ -18,8 +18,6 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Delete the Room database named "app-db"
-        // getApplicationContext().deleteDatabase("app-db");
         super.onCreate(savedInstanceState);
 
         // Check if already logged in

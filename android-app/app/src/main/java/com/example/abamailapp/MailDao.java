@@ -48,7 +48,7 @@ public interface MailDao {
     @Query("SELECT * FROM mails WHERE sender_email = :email AND isDraft = 1")
     LiveData<List<Mail>> getDrafts(String email);
 
-    @Query("SELECT * FROM mails WHERE recipient_email = :email AND isSpam = 1")
+    @Query("SELECT * FROM mails WHERE (recipient_email = :email OR sender_email = :email) AND isSpam = 1")
     LiveData<List<Mail>> getSpam(String email);
 
     @Query("DELETE FROM mails WHERE recipient_email = :userEmail")

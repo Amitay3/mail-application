@@ -1,289 +1,79 @@
-
 <p align="center"> <img src="ABAMail.webp" width="150"/> </p>
 
-# Mail Web App
+#  ABA Mail App
 
-  
+The **ABA Mail App** is a fully functioning email platform that provides sending, receiving, and organizing mails with labels. It can handle drafts and spam filtering (via Bloom Filter).  
 
-This project is a full-featured email management system with a **Node.js backend**, **React frontend**, and a **C++ Bloom filter server**, fully orchestrated using **Docker Compose**.
+This project includes:
+- A **backend** built with **Node.js (Express)** and **C++ (Bloom Filter)**
+- An **Android app** client for user interaction
+- **MongoDB** as the database (running in Docker)
 
-  
-
-It includes sending, drafting, labeling, deleting, and spam filtering via a custom URL blacklist server.
-
-  
-
----
-
-  
-
-## Running the Application with Docker Compose
-
-  
-
-The app consists of 4 services: `web-frontend`, `web-api`, `bloom-server`, and `tests`.
-
-  
-
-###  Prerequisites
-
-* Docker & Docker Compose installed
-
-* Port 5588 available (used by the Bloom server)
-
-  
-
-To free the port if it’s in use:
-
-  
-
-```bash
-
-netstat  -aon | findstr  :5588
-
-taskkill  /PID <pid> /F
-
-```
-
-  
-  
+All setup and usage instructions are available inside the [`wiki`](./wiki) folder:
+- [Setup](./wiki/setup.md)
+- [Register and Login](./wiki/auth.md)
+- [App UI](./wiki/app.md)
+- [Mails](./wiki/mails.md)
+- [Labels](./wiki/labels.md)
+- [Spam Filtering](./wiki/spam.md)
 
 ---
 
-  
+## Project Overview
 
-### Start the App
+The app is a real-world email environment:
+- Users can **register, log in, send, and receive mails**
+- Each user has **Inbox, Sent, Drafts, Spam, and custom label folders**
+- Emails containing blacklisted URLs are **automatically moved to the Spam folder** using a **Bloom Filter**
+- Data persists using **MongoDB**, allowing consistent storage across sessions
 
-  
-
-In the project root, to build and run all containers, run:
-
-  
-
-```bash
-
-docker  compose  up  --build
-
-```
-
-  
-
-Once started, the frontend will be available at:
-
-  
-
-* [http://localhost:3000](http://localhost:3000)
-
-  
-
-The API will be running at:
-
-  
-
-* [http://localhost:8080](http://localhost:8080)
-
-  
 
 ---
 
-  
+## ⚙️ For Developers
 
-### Stopping the App
-
-  
-
-Use:
-
-```bash
-
-Ctrl  +  C
+### Folder Structure
 
 ```
-
-  
-
-and then, to clean up used containers:
-
-```bash
-
-docker  compose  down  --remove-orphans
-
-```
-
-  
-
----
-## Screenshots
-
-  
-
-### Running the app
-In your terminal, in the project root, run command: docker  compose  up  --build  
-
-![Run](docs/run.png)  
-
-Successful build and run will result with this:  
-
-![Result](docs/result.png)  
-
-  
-
-### User Registration And Sign-in
-To register, fill the registration form and click submit.
-
-![Register](docs/createUser.png)  
-
-To sign in, fill the credentials and click sign-in.  
-
-![Sign-in](docs/sign-in.png)  
-
-  
-
-### Compose New Mail
-
-To create new mail, click compose button and fill the sender, recipient and content.  
-Send button will send the mail, Cancel button will save it as draft.  
-
-![Create Mail](docs/createMail.png)
-
-  
-
-### Mail Options - Label, Spam and Delete
-
-Each mail has an options menu (☰), where you can assign labels (via checkboxes), report it as spam, or delete it.  
-When you report a mail as spam, any URLs or links in it will be blacklisted.  
-
-![Options](docs/options.png)
-
-
-### Sign-out
-
-To sign out, click your profile picture in the top-right corner and then click the sign-out button.  
-
-![Sign-out](docs/sign-out.png)
-
----
-  
-
-### Folder General Structure
-
-```
-
-project-root/
-
-├── backend/
-
-│ ├── bloom-client/
-
-│ ├── bloom-server/
-
-│ └── web/                      ← Node.js API
-
-├── frontend/Mail-app           ← React app
-
-├── data/                       ← Bloom filter data
-
-├── docs/
-
+Mail
+│
+├── backend           # Node.js server + C++ Bloom Filter integration
+│
+├── android_app       # Android application code
+│
+├── wiki              # Setup and usage instructions
+│
+├── data              # Stores the blacklisted URLs
+│
 ├── docker-compose.yml
-
-├── .gitignore
-
+│
 └── README.md
-
 ```
 
-  
+### Running and stopping the app
 
----
+1. Run your **backend server** and **Android app** as described in the [Setup](./wiki/setup.md).
+2. Connect to MongoDB using **MongoDB Compass**:
+   ```
+   mongodb://localhost:27018
+   ```
 
-  
+3. When you’re done working:
+In the terminal where Docker is running, press:
+   ```
+   Ctrl + C
+   ```
+5. To clean up all used containers, run:
+   ```bash
+   docker compose down --remove-orphans
+   ```
 
+### Requirements
 
-## For Developers:
-
-###  Frontend
-
-  
-
-The React frontend is in `frontend/mail-app/`.
-
-  
-
-It uses:
-
-  
-
-*  `React Router` for navigation
-
-*  `Bootstrap` for styling
-
-*  Self-made `Toast` notifications
-
-* Dynamic dark/light mode support
-
-  
-
-To run frontend only:
-
-  
-
-```bash
-
-cd  frontend/mail-app
-
-npm  install
-
-npm  start
-
-```
-
-  
-
----
-
-  
-
-### Backend
-
-  
-
-The Node.js Express backend is in `backend/web/`.
-
-  
-
-It uses:
-
-  
-
-* JWT-based authentication
-
-* RESTful API for users, mails, labels, and blacklist
-
-* `bloom-client` to filter spam URLs
-
-  
-
-To run backend only:
-
-  
-
-```bash
-
-cd  backend/web
-
-npm  install
-
-node  app.js
-
-```
-
-
-  
-
-
-  
-
----
-
- 
+| Component | Recommended Version | Notes |
+|------------|---------------------|-------|
+| **Node.js** | v18.x or higher | Required for backend API server |
+| **Docker** | v24.x or higher | To run MongoDB container |
+| **Android Studio** | Electric Eel (or newer) | For running the Android client |
+| **Gradle Plugin** | 8.x | Automatically configured by Android Studio |
+| **C++ Compiler** | g++ 11+ | Required for Bloom Filter module |

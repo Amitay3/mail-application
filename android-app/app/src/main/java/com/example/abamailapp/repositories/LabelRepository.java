@@ -74,7 +74,7 @@ public class LabelRepository {
         labelAPI.createLabel(labelName, new Callback<Label>() {
             @Override
             public void onResponse(Call<Label> call, Response<Label> response) {
-                fetchLabelsFromBackend(); // Refresh after creation
+                fetchLabelsFromBackend();
             }
 
             @Override
@@ -106,7 +106,7 @@ public class LabelRepository {
         labelAPI.deleteLabel(label.getBackendId(), new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                fetchLabelsFromBackend(); // Refresh after deletion
+                fetchLabelsFromBackend();
             }
 
             @Override
@@ -197,7 +197,7 @@ public class LabelRepository {
                         }
                     }
                 }
-                callback.onResponse(null, Response.success(hasLabel)); // use Response<Boolean>
+                callback.onResponse(null, Response.success(hasLabel));
             }
 
             @Override

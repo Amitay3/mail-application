@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         // Apply saved theme before calling super.onCreate to avoid flicker
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.contains(PREF_DARK_MODE)) {
-            // ensure new users have an explicit saved pref
             prefs.edit().putBoolean(PREF_DARK_MODE, false).apply();
         }
         boolean dark = prefs.getBoolean(PREF_DARK_MODE, false);
@@ -118,27 +117,20 @@ public class MainActivity extends AppCompatActivity {
                     com.google.android.material.switchmaterial.SwitchMaterial darkSwitch =
                             actionView.findViewById(R.id.dark_mode_switch);
 
-                    // Temporarily remove listener while we initialize the switch state
                     darkSwitch.setOnCheckedChangeListener(null);
-
-                    // Initialize checked state from prefs (no callback fired)
                     darkSwitch.setChecked(dark);
 
-                    // Now attach listener
                     darkSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         // Save preference immediately
                         prefs.edit().putBoolean(PREF_DARK_MODE, isChecked).apply();
                         // Determine target modes
                         final int targetGlobal = isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
                         final int currentGlobal = AppCompatDelegate.getDefaultNightMode();
-                        // Update global default only if different (ensures new Activities get correct theme)
                         if (currentGlobal != targetGlobal) {
                             AppCompatDelegate.setDefaultNightMode(targetGlobal);
                         }
 
-                        // Apply to THIS activity immediately using local delegate to avoid a full app recreation
                         getDelegate().setLocalNightMode(targetGlobal);
-                        // Apply the change right away and minimize flicker
                         getDelegate().applyDayNight();
                         Log.d("DEBUG_THEME", "after apply- localNightMode=" + getDelegate().getLocalNightMode());
                     });
@@ -267,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                     searchFragment.setArguments(bundle);
 
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, searchFragment) // adjust to your container id
+                            .replace(R.id.container, searchFragment)
                             .addToBackStack(null)
                             .commit();
                 }
@@ -287,7 +279,6 @@ public class MainActivity extends AppCompatActivity {
     // Decode Base64 image for profile
     public Bitmap decodeBase64Image(String base64) {
         try {
-            // Remove the data:image/*;base64, prefix if exists
             if (base64.startsWith("data:image")) {
                 base64 = base64.substring(base64.indexOf(",") + 1);
             }
@@ -297,17 +288,5 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
-    }
-    // Dark mode helpers
-    private void applySavedTheme() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean dark = prefs.getBoolean(PREF_DARK_MODE, false);
-        AppCompatDelegate.setDefaultNightMode(
-                dark ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
-        );
-    }
-    private void saveDarkModePref(boolean dark) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.edit().putBoolean(PREF_DARK_MODE, dark).apply();
     }
 }

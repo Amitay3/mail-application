@@ -153,7 +153,7 @@ public class MailViewActivity extends AppCompatActivity {
             LabelRepository repository = new LabelRepository(this);
 
             Executors.newSingleThreadExecutor().execute(() -> {
-                Mail mail = db.mailDao().get(mailId); // synchronous Room call
+                Mail mail = db.mailDao().get(mailId);
                 if (mail == null) {
                     runOnUiThread(() ->
                             Toast.makeText(this, "Mail not found", Toast.LENGTH_SHORT).show()

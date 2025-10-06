@@ -83,13 +83,13 @@ public class UserRepository {
                             // Construct a proper Room user
                             userToSave = new User(
                                     backendUser.getUserName(),
-                                    request.getPassword(), // take password from login request
+                                    request.getPassword(),
                                     backendUser.getMailAddress(),
                                     backendUser.getImage() != null ? backendUser.getImage() : "default"
                             );
                             db.userDao().insert(userToSave);
                         } else {
-                            // Update existing (keep Room ID)
+                            // Update existing
                             userToSave = new User(
                                     backendUser.getUserName(),
                                     existing.getPassword(),
@@ -143,13 +143,13 @@ public class UserRepository {
                         if (response.isSuccessful() && response.body() != null) {
                             Log.d("Register", "Response body: " + new Gson().toJson(response.body()));
 
-                            User user = response.body().toUser(); // convert backend response to User
+                            User user = response.body().toUser();
 
                             executor.execute(() -> {
-                                long id = db.userDao().insert(user); // returns row ID
-                                user.setId((int) id);                // set the ID to user
+                                long id = db.userDao().insert(user);
+                                user.setId((int) id);
 //                                SessionManager.setLoggedInUserId(user.getId());
-                                result.postValue(user);              // now it's safe to post
+                                result.postValue(user);
                             });
 
                         } else {

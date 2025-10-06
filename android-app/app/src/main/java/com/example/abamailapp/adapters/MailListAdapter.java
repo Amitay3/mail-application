@@ -40,7 +40,7 @@ public class MailListAdapter extends RecyclerView.Adapter<MailListAdapter.MailVi
     }
 
     public void setMailList(List<Mail> mails) {
-        this.mailList.clear();       // remove old mails
+        this.mailList.clear();
         if (mails != null) {
             this.mailList.addAll(mails);
         }

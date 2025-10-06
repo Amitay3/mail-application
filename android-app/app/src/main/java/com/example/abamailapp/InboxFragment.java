@@ -57,7 +57,7 @@ public class InboxFragment extends Fragment {
             userRepository.fetchUserById(userId, fetchedUser -> {
                 if (fetchedUser != null) {
                     new Thread(() -> {
-                        db.userDao().insert(fetchedUser); // save to Room
+                        db.userDao().insert(fetchedUser);
                         requireActivity().runOnUiThread(() -> {
                             mailViewModel.getInbox(fetchedUser.getMailAddress())
                                     .observe(getViewLifecycleOwner(), mails -> adapter.setMailList(mails));

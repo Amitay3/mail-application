@@ -48,9 +48,6 @@ public class ComposeViewModel extends AndroidViewModel {
                     if (isDraft) {
                         toastMessage.postValue("Saved as draft");
                     }
-//                    else {
-//                        toastMessage.postValue("Mail sent successfully!");
-//                    }
                     if (callback != null) callback.onSuccess();
                 } else {
                     try {

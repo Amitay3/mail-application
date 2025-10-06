@@ -33,7 +33,7 @@ public interface BackendAPI {
             @Part("password") RequestBody password,
             @Part("verifiedPassword") RequestBody verifiedPassword,
             @Part("mailAddress") RequestBody email,
-            @Part MultipartBody.Part image  // optional
+            @Part MultipartBody.Part image
     );
 
     // --- MAILS ---
